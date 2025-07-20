@@ -41,11 +41,12 @@ jobs:
             echo "No tests defined in ${{ matrix.folder }}"
           fi
 
-      - name: Run lint (if any)
+      - name: Run lint (if defined)
         working-directory: ${{ matrix.folder }}
         run: |
-          if [ -f "package.json" ] && npm run | grep -q "lint"; then
+          if [ -f "package.json" ] && npm pkg get scripts.lint | grep -vq null; then
+            echo "✅ Found lint script. Running lint..."
             npm run lint
           else
-            echo "No lint script defined in ${{ matrix.folder }}"
+            echo "ℹ️ No lint script defined in ${{ matrix.folder }}"
           fi
