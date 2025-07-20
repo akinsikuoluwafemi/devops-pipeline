@@ -41,17 +41,22 @@ jobs:
             echo "No tests defined in ${{ matrix.folder }}"
           fi
 
-          - name: Run lint (if defined)
-          working-directory: ${{ matrix.folder }}
-          run: |
-            if [ -f "package.json" ]; then
-              HAS_LINT=$(npm pkg get scripts.lint 2>/dev/null | grep -vq null && echo yes || echo no)
-              if [ "$HAS_LINT" = "yes" ]; then
-                echo "✅ Found lint script. Running lint..."
-                npm run lint
-              else
-                echo "ℹ️ No lint script defined in ${{ matrix.folder }}"
-              fi
-            else
-              echo "⚠️ No package.json found"
-            fi
+      - name: Run lint (if defined)
+        working-directory: ${{ matrix.folder }}
+        run: |
+          if [ -f "package.json" ] && npm pkg get scripts.lint | grep -vq null; then
+            echo "✅ Found lint script. Running lint..."
+            npm run lint
+          else
+            echo "ℹ️ No lint script defined in ${{ matrix.folder }}"
+          fi
+
+      - name: Run build (if defined)
+        working-directory: ${{ matrix.folder }}
+        run: |
+          if [ -f "package.json" ] && npm pkg get scripts.build | grep -vq null; then
+            echo "🛠️ Running build script in ${{ matrix.folder }}"
+            npm run build
+          else
+            echo "ℹ️ No build script defined in ${{ matrix.folder }}"
+          fi

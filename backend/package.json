@@ -2,8 +2,7 @@
   "name": "crud-backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo 'Add tests here'"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
