@@ -1,0 +1,11 @@
+node_modules/
+.env
+dist/
+cache
+.vscode
+.DS_Store
+.idea
+.history
+.next
+.nuxt
+.sass-cache
