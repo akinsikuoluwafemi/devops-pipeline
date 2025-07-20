@@ -38,14 +38,14 @@ jobs:
           if [ -f "package.json" ] && npm run | grep -q "test"; then
             npm test
           else
-            echo "No tests defined in ${{ matrix.folder }}"
+            echo "ℹ️ No test script defined in ${{ matrix.folder }}"
           fi
 
       - name: Run lint (if defined)
         working-directory: ${{ matrix.folder }}
         run: |
-          if [ -f "package.json" ] && npm pkg get scripts.lint | grep -vq null; then
-            echo "✅ Found lint script. Running lint..."
+          if npm run | grep -q "lint"; then
+            echo "✅ Found lint script in ${{ matrix.folder }}. Running lint..."
             npm run lint
           else
             echo "ℹ️ No lint script defined in ${{ matrix.folder }}"
@@ -54,7 +54,7 @@ jobs:
       - name: Run build (if defined)
         working-directory: ${{ matrix.folder }}
         run: |
-          if [ -f "package.json" ] && npm pkg get scripts.build | grep -vq null; then
+          if [ -f "package.json" ] && npm run | grep -q "build"; then
             echo "🛠️ Running build script in ${{ matrix.folder }}"
             npm run build
           else
